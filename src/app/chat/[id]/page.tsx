@@ -2,7 +2,7 @@ import { ChatWindow } from "~/components/chat/chat-window";
 import { notFound } from "next/navigation";
 
 interface ChatPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {

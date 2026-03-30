@@ -7,17 +7,14 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    NEXTAUTH_SECRET:
-      process.env.NODE_ENV === "production"
-        ? z.string()
-        : z.string().optional(),
-    NEXTAUTH_URL: z.string().url().optional(),
-    GOOGLE_CLIENT_ID: z.string(),
-    GOOGLE_CLIENT_SECRET: z.string(),
-    OPENAI_API_KEY: z.string(),
-    UPSTASH_REDIS_REST_URL: z.string().url().optional(),
-    UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
-    DATABASE_URL: z.string().url(),
+    NEXTAUTH_SECRET: z.string().min(1).optional(),
+    NEXTAUTH_URL: z.string().min(1).optional(),
+    GOOGLE_CLIENT_ID: z.string().min(1),
+    GOOGLE_CLIENT_SECRET: z.string().min(1),
+    OPENAI_API_KEY: z.string().min(1),
+    UPSTASH_REDIS_REST_URL: z.string().min(1).optional(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
+    DATABASE_URL: z.string().min(1),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),

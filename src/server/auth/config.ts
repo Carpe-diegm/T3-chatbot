@@ -30,17 +30,24 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
+import { env } from "~/env";
+
 export const authConfig = {
   providers: [
-    Google,
+    Google({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
   adapter: PrismaAdapter(db),
+  secret: env.NEXTAUTH_SECRET,
+  trustHost: true,
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: (user as any).id,
       },
     }),
   },

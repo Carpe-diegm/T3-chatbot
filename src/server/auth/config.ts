@@ -42,12 +42,13 @@ export const authConfig = {
   adapter: PrismaAdapter(db),
   secret: env.NEXTAUTH_SECRET,
   trustHost: true,
+  session: { strategy: "jwt" },
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: (user as any).id,
+        id: token.sub!,
       },
     }),
   },

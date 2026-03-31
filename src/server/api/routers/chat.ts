@@ -3,22 +3,18 @@ import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const chatRouter = createTRPCRouter({
-  createChat: protectedProcedure.mutation(async ({ ctx }) => {
-    return ctx.db.chat.create({
-      data: { userId: ctx.session.user.id },
-    });
-  }),
+  createChat: protectedProcedure
+    .input(z.object({ initialMessage: z.string().optional() }).optional())
+    .mutation(async ({ ctx }) => {
+      return ctx.db.chat.create({
+        data: { userId: ctx.session.user.id },
+      });
+    }),
 
   getUserChats: protectedProcedure.query(({ ctx }) => {
     return ctx.db.chat.findMany({
       where: { userId: ctx.session.user.id },
       orderBy: { updatedAt: "desc" },
-      include: {
-        messages: {
-          take: 1,
-          orderBy: { createdAt: "desc" }
-        }
-      }
     });
   }),
 

@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^3.0.31",
     "@ai-sdk/openai": "^3.0.48",
     "@ai-sdk/react": "^3.0.143",
     "@auth/prisma-adapter": "^2.7.2",

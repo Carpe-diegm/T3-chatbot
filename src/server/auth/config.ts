@@ -35,12 +35,12 @@ import { env } from "~/env";
 export const authConfig = {
   providers: [
     Google({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
     }),
   ],
   adapter: PrismaAdapter(db),
-  secret: env.NEXTAUTH_SECRET,
+  secret: env.AUTH_SECRET,
   trustHost: true,
   session: { strategy: "jwt" },
   callbacks: {

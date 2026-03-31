@@ -14,6 +14,13 @@ interface ChatInputProps {
 export function ChatInput({ input, onInputChange, onSubmit, isLoading }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Focus on mount and after loading finishes
+  useEffect(() => {
+    if (!isLoading && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [isLoading]);
+
   // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
@@ -25,7 +32,10 @@ export function ChatInput({ input, onInputChange, onSubmit, isLoading }: ChatInp
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      onSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
+      if (!input.trim() || isLoading) return;
+      onSubmit(e as any);
+      // Re-focus immediately after submit
+      setTimeout(() => textareaRef.current?.focus(), 0);
     }
   };
 
